@@ -3,6 +3,8 @@ Read file into texts and calls.
 It's ok if you don't understand how to read files.
 """
 import csv
+import os
+#os.chdir('C:\\Users\\janni\\Dropbox\\university\\13 Semester bis zum Lebensende\\2020_03 Udacity Data Structures Class\\Github\\Project 1 Unscramble Computer Science Problems')
 
 with open('texts.csv', 'r') as f:
     reader = csv.reader(f)
