@@ -47,16 +47,63 @@ to other fixed lines in Bangalore."
 The percentage should have 2 decimal digits
 """
 
+called_from_bangalore = []
+for call in calls:
+    caller = call[0]
+    called = call[1]
+    if caller[0:5] == "(080)":
+        called_from_bangalore.append(called)
+
+codes_called_from_bangalore = []
+
+
+for called in called_from_bangalore:
+    # landlines
+    if called[0:2] == "(0":
+        if called[4:5] == ")":
+            area_code = called[0:5]
+        if called[5:6] == ")":
+            area_code = called[0:6]
+        if called[6:7] == ")":
+            area_code = called[0:7]
+
+        codes_called_from_bangalore.append(area_code)
+    # mobile
+    if called[5:6] == " ":
+       area_code = called[0:4]
+       codes_called_from_bangalore.append(area_code)
+    # telemarketers
+    if called[0:3] == "140":
+       area_code = 140
+       codes_called_from_bangalore.append(area_code)
+
+# get unique values:
+results = list(set(codes_called_from_bangalore))
+results.sort()
+print("The numbers called by people in Bangalore have codes:")
+for areacode in results:
+    print(areacode)
 
 
 
 
+calls_from_bangalore = []
+calls_from_bangalore_to_bangalore =[]
+num_calls_from_bangalore = 0
+num_calls_from_bangalore_to_bangalore = 0
+for call in calls:
+    caller = call[0]
+    called = call[1]
+    if caller[0:5] == "(080)":
+        calls_from_bangalore.append(call)
+        num_calls_from_bangalore +=1
+        if  called[0:5] == "(080)":
+            calls_from_bangalore_to_bangalore.append(call)
+            num_calls_from_bangalore_to_bangalore += 1
 
 
 
-
-
-
+print("{} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.". format(round(num_calls_from_bangalore_to_bangalore/num_calls_from_bangalore*100,2)))
 
 
 
