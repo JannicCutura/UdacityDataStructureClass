@@ -53,7 +53,7 @@ def findLongestTimeandNumber(calls):
     #sort to get largest one
     aggregated = sorted(aggregated.items(), key=lambda x: x[1])
     # get last value
-    result = list(reversed(list(aggregated)))[0:1]
+    return list(reversed(list(aggregated)))[0:1]
 
 
-print("{} spent the longest time, {} seconds, on the phone during September 2016".format(result[0][0], str(result[0][1])))
+print("{} spent the longest time, {} seconds, on the phone during September 2016".format(findLongestTimeandNumber(calls)[0][0], str(findLongestTimeandNumber(calls)[0][1])))
