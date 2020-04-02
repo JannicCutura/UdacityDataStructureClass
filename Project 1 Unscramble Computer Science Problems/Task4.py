@@ -74,4 +74,3 @@ print("These numbers could be telemarketers: ")
 for number in findTelemarketers(texts, calls):
     print(number)
 
-
