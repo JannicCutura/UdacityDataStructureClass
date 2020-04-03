@@ -18,6 +18,8 @@ class DoubleNode:
     def __str__(self):
         return str(self.value)
 
+    def print_info(self):
+        print("The key is {} and the value is {}, the next node is {} and the previous node is {}".format(self.key,self.value, self.next, self.prev))
 
 class DoublyLinkedList:
     def __init__(self):
@@ -99,6 +101,7 @@ class LRU_Cache(object):
         else:
             self.replaceKey(key, value)
         self.updateMostRecent(self.hash[key])
+        # note that self.hash[key] is a node object!
 
     def removeLeastRecent(self):
         keyToRemove = self.listOfMostRecent.tail.key
@@ -123,6 +126,29 @@ class LRU_Cache(object):
 our_cache = LRU_Cache(5)
 our_cache.set(1, 1);
 our_cache.set(2, 2);
+print()
+print('Cache after adding 1, 2, 3 and 4 in that order: ')
+print(our_cache)
+print('Hash status:', our_cache.get_hash())
+print()
+print('Print the our_cache.hash to see the actual objects here:')
+print(our_cache.hash)
+print('Okay, so we have a dcitionary where key 1 points to a node and so does key 2. Lets inspects them.')
+print('First, lets look at the node where key is 1')
+print('Print its key, value, next and prev')
+our_cache.hash[1].key
+our_cache.hash[1].value
+our_cache.hash[1].next
+our_cache.hash[1].prev
+print('the interesting thing here is that our_cache.hash[1].prev again is a node. lets test whether it is the next one:')
+our_cache.hash[1].prev == our_cache.hash[2]
+print('Indeed! This is extremely useful, since by only providing the new element for the cache we can get that'
+      'element from the LinkedList listOfMostRecent. This allows to delete such an element by replacing the prev and next '
+      'links.')
+
+
+
+
 our_cache.set(3, 3);
 our_cache.set(4, 4);
 print()
@@ -162,5 +188,19 @@ print('Hash status:', our_cache.get_hash())
 print('our_cache.get(3) returns: ', our_cache.get(3))
 print('Cache after adding get(3):\n', our_cache)
 print('Hash status:', our_cache.get_hash())
-{k: str(v) for k, v in our_cache.hash.items()}
+
+our_cache.set(5, 5)
+print('Cache after adding 5:\n', our_cache)
+print('Hash status:', our_cache.get_hash())
+
+our_cache.set(5, 5)
+
+## some additional print outs for my understanding
+our_cache.hash
+for key, value in our_cache.hash.items():
+    print(key)
+    print(value.print_info())
+
+
+
 
