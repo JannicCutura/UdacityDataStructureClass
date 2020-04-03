@@ -3,7 +3,7 @@ import sys
 Inspired from https://github.com/viralj/nd256_project2/blob/master/solution_3.py
 
 Basically I tried tp use a tree first, but I could not figure out how to merge two trees, which
-the visualizations seemed to imply. In the forum some people seems to head a heaq module in python,
+the visualizations seemed to imply. In the forum some people seems to head a heapq module in python,
 but this seems to make it too easy. Googling on the issue, I found the github above. I understood its solution
 and was able to encode it more efficiently. The size of their decoded data is 69, mine is 40, i.e. considerably
 smaller. 
@@ -16,6 +16,14 @@ def huffman_encoding(data):
     Takes a string as input
     returns a tree and encoded data
     """
+    if not isinstance(data, str):
+        print("You did not provide a string as input")
+        return None, None
+
+    if data == "":
+        print("You provided an empty string as input")
+        return None, None
+
     freq_table = dict()
     key2code = dict()
     encoded_data = ""
@@ -53,8 +61,6 @@ def huffman_decoding(encoded_data,key2code):
     return decoded_data
 
 
-data = "The bird is the word"
-
 
 
 
@@ -75,3 +81,25 @@ if __name__ == "__main__":
 
     print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
     print ("The content of the encoded data is: {}\n".format(decoded_data))
+
+
+    a_great_sentence = ""
+
+    print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
+    print ("The content of the data is: {}\n".format(a_great_sentence))
+
+    encoded_data, tree = huffman_encoding(a_great_sentence)
+    #You provided an empty string as input
+
+
+    a_great_sentence = [1,2,3]
+
+    print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
+    print ("The content of the data is: {}\n".format(a_great_sentence))
+
+    encoded_data, tree = huffman_encoding(a_great_sentence)
+    # You did not provide a string as input
+
+
+
+

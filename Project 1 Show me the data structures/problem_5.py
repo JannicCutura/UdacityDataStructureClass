@@ -64,5 +64,17 @@ print(mychain)
 mychain.add2chain(3)
 mychain.add2chain(5)
 
-# test whether hash codes work and link corretly
+mychain.add2chain(None)
+# expect no errors even though we added None
+
+
+try:
+    mychain.add2chain()
+except:
+    print("No input provided")
+#"No input provided"
+
+
+# test whether hash codes work and link correctly
 print("Previous Hash of head is equal current has of previous block? {}".format(mychain.head.previous_hash ==mychain.head.next.hash))
+# Previous Hash of head is equal current has of previous block? True
