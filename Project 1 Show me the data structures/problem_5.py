@@ -32,25 +32,43 @@ class BlockChain:
             self.head = Block(data,  timestamp = current_gmt)
             self.tail = self.head
 
+        elif self.head is self.tail:
+            newblock = Block(data, timestamp=current_gmt)
+            newblock.previous_hash = self.head.hash
+            self.head.next = newblock
+            self.tail= newblock
+
+
         else:
             newblock = Block(data,  timestamp=current_gmt)
-            previous_hash = self.head.hash
-            oldhead = self.head
-            self.head = newblock
-            self.head.previous_hash = previous_hash
-            newblock.next = oldhead
+            cur_node = self.head
+            while cur_node.next is not None:
+                cur_node = cur_node.next
+            newblock.previous_hash =cur_node.hash
+            cur_node.next = newblock
+            self.tail= newblock
+
+        self.size +=1
+
 
     def __str__(self):
         if self.head is None:
             return "This blockchain is empty"
         else:
-            return "The head of the chain is {}".format(self.head.data)
+            cur_node = self.head
+            to_print = "Head is "
+            while cur_node:
+                to_print = to_print + str(cur_node.data) + " --> "
+                cur_node = cur_node.next
+            to_print = to_print[:-5]
+            to_print = to_print+" is Tail"
+            return to_print
 
 
 
 
 
-## test cases
+## Test Case 1: Regular case
 # initialize blockchain
 mychain = BlockChain()
 
@@ -59,15 +77,41 @@ print(mychain)
 
 mychain.add2chain(1)
 print(mychain)
-#The head of the chain is 1
+#Head is 1 is Tail
 
+mychain.add2chain(3)
+print(mychain)
+# Head is 1 --> 3 is Tail
+mychain.add2chain(5)
+print(mychain)
+# Head is 1 --> 3 --> 5 is Tail
+
+
+## Test case 2: Suggested by my previous reviewer to check order
+mychain = BlockChain()
+mychain.add2chain(1)
 mychain.add2chain(3)
 mychain.add2chain(5)
 
+a = mychain.head
+while a:
+    print(a.data)
+    a=a.next
+#1
+#3
+#5
+# Note: this is what they wanted.
+
+
+## Test case 3: Add a non-sense element
+mychain = BlockChain()
+mychain.add2chain(1)
+mychain.add2chain(3)
+mychain.add2chain(5)
 mychain.add2chain(None)
 # expect no errors even though we added None
 
-
+## Test case 4: Forgot the input
 try:
     mychain.add2chain()
 except:
@@ -75,6 +119,15 @@ except:
 #"No input provided"
 
 
-# test whether hash codes work and link correctly
-print("Previous Hash of head is equal current has of previous block? {}".format(mychain.head.previous_hash ==mychain.head.next.hash))
-# Previous Hash of head is equal current has of previous block? True
+#  Test case 5: Check the hash references
+print(mychain)
+print("Previous Hash of head is equal current has of previous block?")
+a = mychain.head
+runner = 1
+while a.next:
+    print("At node number {}, is hash equal to next.previous hash?".format(runner))
+    print(a.hash == a.next.previous_hash)
+    a=a.next
+    runner +=1
+
+

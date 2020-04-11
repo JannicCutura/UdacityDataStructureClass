@@ -8,13 +8,27 @@ Here is some boilerplate code and test cases to start with:
 """
 
 def sort_012(input_list):
-    """
-    Given an input array consisting on only 0, 1, and 2, sort the array in a single traversal.
+    zeros = 0
+    ones = 0
+    twos = 0
+    for number in input_list:
+        if number == 0:
+            zeros +=1
+        elif number == 1:
+            ones +=1
+        elif number == 2:
+            twos +=1
+        else:
+            print("Error: You have inserted numbers outside [0,1,2]")
+            return
+    result = zeros*[0]
+    result.extend(ones*[1])
+    result.extend(twos*[2])
+    return result
 
-    Args:
-       input_list(list): List to be sorted
-    """
-    pass
+
+
+
 
 def test_function(test_case):
     sorted_array = sort_012(test_case)
@@ -27,3 +41,11 @@ def test_function(test_case):
 test_function([0, 0, 2, 2, 2, 1, 1, 1, 2, 0, 2])
 test_function([2, 1, 2, 0, 0, 2, 1, 0, 1, 0, 0, 2, 2, 2, 1, 2, 0, 0, 0, 2, 1, 0, 2, 0, 0, 1])
 test_function([0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2])
+
+
+
+sorted([0, 0, 2, 2, 2, 1, 1, 1, 2, 0, 2])
+
+
+
+

@@ -19,8 +19,13 @@ def find_files(suffix, path):
     """
     files_with_paths = []
 
+    if len(suffix) ==0:
+        print("Warning: You did not enter a suffix")
+        return
+
     if suffix[0] != ".":
         print("Warning! Suffix does not contain a delimiter (dot symbol)")
+        return
 
     if not os.path.exists(path):
         print("This path does not exist")
@@ -32,7 +37,7 @@ def find_files(suffix, path):
         folders=[]
         for element in elements_in_path:
             if os.path.isfile(path + "/" + element):
-                if element.endswith(".c"):
+                if element.endswith(suffix):
                     files_with_paths.append(path+"/"+element)
             if os.path.isdir(path + "/" + element):
                 folders.append(element)
@@ -59,5 +64,4 @@ print(find_files(".c", projectfilespath+'testdir2'))
 # test case 3: Suppose we forgot the "." in the suffix
 print(find_files("r", projectfilespath+'testdir2'))
 # "This path does not exist"
-
 

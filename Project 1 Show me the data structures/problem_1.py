@@ -15,6 +15,7 @@ class DoubleNode:
 
 # lets first test the doublenode class a bit
 node1 = DoubleNode(1,1)
+node2 = DoubleNode(1,1)
 node2 = DoubleNode(2,3)
 node1.key
 node2.value
@@ -117,6 +118,12 @@ class LRU_Cache(object):
 
 
     def set(self, key, value):
+        if not isinstance(self.capacity,int):
+            print("The Cache was not initialized with a valid capacity parameter. Change to LRU_Cache(n) where n is an integer with n>0!")
+            return
+        if self.capacity == 0:
+            print("The Cache was initialized having no capacity. Change to LRU_Cache(n) where n>0!")
+            return
         if key in self.hash:
             self.llist.preprend(self.hash[key])
             self.hash[key] = value ## in case a different value is associated with the key
@@ -140,6 +147,9 @@ class LRU_Cache(object):
     def get_hash(self):
         return {k: str(v) for k, v in self.hash.items()}
 
+
+
+## Test Case 1: From the problem statement
 our_cache = LRU_Cache(5)
 
 our_cache.set(1, 1);
@@ -155,6 +165,22 @@ our_cache.set(5, 5)
 our_cache.set(6, 6)
 
 our_cache.get(3)      # returns -1 because the cache reached it's capacity and 3 was the least recently used entry
+
+
+
+## Test Case 2: Initialize an empty cache
+our_cache = LRU_Cache(0)
+our_cache.set(1, 1);
+#The Cache was initialized having no capacity. Change to LRU_Cache(n) where n>0!
+
+
+## Test Case 3: Initialize an invalid capacity parameter
+our_cache = LRU_Cache("a")
+our_cache.set(1, 1);
+# The Cache was not initialized with a valid capacity parameter. Change to LRU_Cache(n) where n is an integer with n>0!
+
+
+
 
 
 
@@ -174,7 +200,6 @@ print("if the implemntation is correct, our_cache.hash[2]  should be  our_cache.
 node1.prev == our_cache.hash[2]
 print("and vice verse, our_cache.hash[2].next  should be  our_cache.hash[1]. Is it?")
 node1 == our_cache.hash[2].next
-
 
 
 

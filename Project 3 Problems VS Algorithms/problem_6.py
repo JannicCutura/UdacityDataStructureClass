@@ -8,13 +8,26 @@ Bonus Challenge: Is it possible to find the max and min in a single traversal?
 
 
 def get_min_max(ints):
-    """
-    Return a tuple(min, max) out of list of unsorted integers.
+    if len(ints) == 0:
+        print("Error: The input is empty")
+        return
+    tmp = ints
 
-    Args:
-       ints(list): list of integers containing one or more integers
-    """
-   pass
+    for char in ints:
+        if not str(char).isdigit():
+            print("Error: The input must only contain numbers")
+            return
+
+    min = ints[0]
+    max =ints[0]
+    for number in ints:
+        if number < min:
+            min = number
+        elif number > max:
+            max = number
+        else:
+            pass
+    return (min, max)
 
 ## Example Test Case of Ten Integers
 import random
@@ -22,5 +35,28 @@ import random
 l = [i for i in range(0, 10)]  # a list containing 0 - 9
 random.shuffle(l)
 
+# Test Case 1: From the problem set
 print ("Pass" if ((0, 9) == get_min_max(l)) else "Fail")
+
+
+# Test Case 2:
+l = []
+get_min_max(l)
+# Error: The input is empty
+
+
+
+# Test Case 3:
+l = [1,2,"a"]
+get_min_max(l)
+# Error: The input must only contain numbers
+
+
+# Test Case 4:
+l = [2,2,2]
+print(get_min_max(l))
+# (2, 2)
+
+
+
 
