@@ -1,0 +1,9 @@
+This problem appeared quite easy:
+Simply loop through all elements and always store the min and max. initialize those
+to the first element in the list. 
+
+Foer n input numbers:
+
+Time complexity is O(n) since we need to check every element in the input. 
+
+Space complexity is O(1) since we only store the current min and max. 

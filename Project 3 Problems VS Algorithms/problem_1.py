@@ -11,19 +11,149 @@ Here is some boilerplate code and test cases to start with:
 
 """
 
+
+def binary_search_for_the_square(target):
+    start_index = 0
+    end_index = target
+    while start_index < end_index:
+        print("")
+        mid_index = (start_index + end_index) // 2
+
+        if mid_index**2 <= target and (mid_index+1)**2 > target:
+            return mid_index
+        if mid_index**2 > target:
+            end_index = mid_index
+        else:
+            start_index = mid_index
+    return -1
+
+
 def sqrt(number):
-    """
-    Calculate the floored square root of a number
+    if not isinstance(number, int):
+        print("You have not entered an integer")
+        return
+    if number < 0 :
+        print("negative Numbers don't have (real) roots")
+        return
+    if number == 0:
+        return 0
+    if number == 1:
+        return 1
+    if number > 1:
+        result =  binary_search_for_the_square(number)
+        return result
 
-    Args:
-       number(int): Number to find the floored squared root
-    Returns:
-       int: Floored Square Root
-    """
-    pass
 
+
+
+## test Case 1: From the problem set
 print ("Pass" if  (3 == sqrt(9)) else "Fail")
 print ("Pass" if  (0 == sqrt(0)) else "Fail")
 print ("Pass" if  (4 == sqrt(16)) else "Fail")
 print ("Pass" if  (1 == sqrt(1)) else "Fail")
 print ("Pass" if  (5 == sqrt(27)) else "Fail")
+
+
+## test case 2: Enter a non-integer
+sqrt("a")
+# You have not entered an integer
+sqrt(1.4)
+# You have not entered an integer
+
+## test case 3: Enter a really huge number:
+sqrt(100000000)
+# 10000
+# slows down quite a bit. This is a memory issue, I can see my RAM spike.
+
+## test case 4: negative integer
+sqrt(-9)
+
+
+
+
+
+
+
+
+
+## this was my old inefficient solution with a list of candidates
+
+
+import sys, os
+## for debugging
+# Disable
+def blockPrint():
+    sys.stdout = open(os.devnull, 'w')
+
+# Restore
+def enablePrint():
+    sys.stdout = sys.__stdout__
+
+
+
+def binary_search_for_the_square(array, target):
+    start_index = 0
+    end_index = len(array) - 1
+    blockPrint()
+    while start_index < end_index:
+        print("")
+        print(array[start_index:end_index])
+        mid_index = (start_index + end_index) // 2
+        print("Mid index is {} and midvalue is {} and squared that ios {}".format(mid_index, array[mid_index], array[mid_index]**2))
+
+
+        if array[mid_index]**2 <= target and (array[mid_index]+1)**2 > target:
+            return array[mid_index]
+        if array[mid_index]**2 > target:
+            print("array[mid_index]**2 is {} > target".format(array[mid_index]**2, target))
+            end_index = mid_index
+        else:
+            print("array[mid_index]**2 is {} < target".format(array[mid_index]**2, target))
+            start_index = mid_index
+    return -1
+
+
+
+def sqrt(number):
+    if not isinstance(number, int):
+        print("You have not entered an integer")
+        return
+    if number < 0 :
+        print("negative Numbers don't have (real) roots")
+        return
+    if number == 0:
+        return 0
+    if number == 1:
+        return 1
+    if number > 1:
+        candidates = list(range(0,number+1//2))
+        result =  binary_search_for_the_square(candidates, number)
+        enablePrint()
+        return result
+
+
+
+
+## test Case 1: From the problem set
+print ("Pass" if  (3 == sqrt(9)) else "Fail")
+print ("Pass" if  (0 == sqrt(0)) else "Fail")
+print ("Pass" if  (4 == sqrt(16)) else "Fail")
+print ("Pass" if  (1 == sqrt(1)) else "Fail")
+print ("Pass" if  (5 == sqrt(27)) else "Fail")
+
+
+## test case 2: Enter a non-integer
+sqrt("a")
+# You have not entered an integer
+sqrt(1.4)
+# You have not entered an integer
+
+## test case 3: Enter a really huge number:
+sqrt(100000000)
+# 10000
+# slows down quite a bit. This is a memory issue, I can see my RAM spike.
+
+## test case 4: negative integer
+sqrt(-9)
+
+

@@ -1,0 +1,11 @@
+My idea was that if you look for the square root of n, the solution is generally is smaller than n. let the solution be k. Then 0 < k <=n,
+this means the solution k is somewhere in the set [0,1,2,...,k,....,n]. This we can simply check using binary search. I modified the binary search
+function to check whether the squared element of an order list [0,1,2,3,4,5,... n//2] is smaller than n and if so, whether the next oen is larger
+if so, we found the number. If not, go up or down respectively.
+
+Time complexity. This is O(log(n)) since I am always halfing the possible candidates. Very similar to the regular binary search problem
+Space complexity. This O(1) since I only store start , mid and end indexes.
+
+Note: My first solution used a list, this would have had space complexity of O(n). I could literally hear my RAM spike
+when I ran the function on a large number. Cool learning experience! I left this old solution at the bottom of the code.
+
