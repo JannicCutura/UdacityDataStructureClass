@@ -1,0 +1,11 @@
+seemed similar like the other problem -- did I miss something here??
+
+Time complexity is O(n) at worst for both find and insert since it could be just one long url with no "branches".
+/sub/sub1/sub2/.../.subn
+
+Space complexity is also O(n) at worst.
+
+Both time and space complexity decrease dramatically if the page is more of a tree pattern, with prefixes ("higher level
+directories") which repeat themselves.
+
+

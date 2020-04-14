@@ -1,1 +1,11 @@
-My
+My solution builds on the quick sort learned in class. I worked it through in detail and copied it here. My strategy was:
+- Sort the array
+- then from the back, take element for element and build two numbers.
+
+Time complexity is O(n Log(n)):
+Sorting takes O(n log(n)). Looping is O(n).
+
+
+Space complexity is O(n):
+Sorting is inplace and takes no extra space, i.e. is O(1)
+Build the result takes O(n) space since for each input number we need to store where it goes.

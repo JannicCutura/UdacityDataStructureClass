@@ -1,0 +1,29 @@
+Cool problem!
+
+I cannot comment on the complexity if the commands that are given in the end to visualize the result, but for my codes:
+
+So, let n be the number of words and m(n) be the length (number of characters) of word n and M is the longest word.
+Further, let k be the number of individual characters that can be used in our dictionary (something like A-Za-z0-9!("/§&$%...").
+Note that space  complexity is bounded by O(M*k). Note that both M and k will not (necessarily) grow as n grows.
+For realistic applications therefore space complexity will be "constant". not really constant, but growing ever slower.
+suppose that "inform" is in the Trie. To add the word information, you only need to add "ation". As you have more words in
+there, more common roots will be in place already. Suppose for all A-Z you have at least one words that starts with it:
+Then you will save one character when you insert the next word for sure (because it has to start with one of those
+characerters). A realistic estimation for time and space complexity is therefore having an upper bound O(k*M).
+
+In the absolute worst case, space and time complexity is still O(n).
+Suppose we add words like:
+a
+aa
+aaa
+aaaa
+aaaaa
+...
+
+This would not make sense as an application. But both inserting and lookup would take linear time and space.
+
+
+
+
+
+
