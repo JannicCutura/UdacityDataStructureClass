@@ -34,14 +34,19 @@ it won't have a handler which is fine.
 
 # A RouteTrie will store our routes and their associated handlers
 class RouteTrie:
-    def __init__(self):
-        self.root = RouteTrieNode()
+    def __init__(self, handler="root handler", not_found_handler="404 - Page not found"):
+        self.root = RouteTrieNode(handler)
+        self.not_found_handler = not_found_handler
 
-
-    def insert(self, newpage):
+    def insert(self, newpage, handler):
         # Similar to our previous example you will want to recursively add nodes
         # Make sure you assign the handler to only the leaf (deepest) node of this path
         newpage = newpage.split("/")
+        try:
+            newpage.remove('')
+            newpage.remove('')
+        except ValueError:
+            pass
         current_node = self.root
 
         for directory in newpage:
@@ -49,71 +54,86 @@ class RouteTrie:
                 current_node.insert(directory)
             current_node = current_node.children[directory]
 
-        current_node.handler = newpage[-1] + " handler"
+        current_node.handler = handler
 
     def find(self, url):
         # Starting at the root, navigate the Trie to find a match for this path
         # Return the handler for a match, or None for no match
-        pass
+
+        url = url.split("/")
+        try:
+            url.remove('')
+            url.remove('')
+        except ValueError:
+            pass
+
+        if len(url) == 0:
+            return self.root.handler
+        current_node = self.root
+        for directory in url:
+            if directory not in current_node.children:
+                return self.not_found_handler
+            current_node = current_node.children[directory]
+
+        return current_node.handler
+
 
 
 # A RouteTrieNode will be similar to our autocomplete TrieNode... with one additional element, a handler.
 class RouteTrieNode:
-    def __init__(self):
+    def __init__(self, handler = None):
         self.children = {}
-        self.handler = None
+        self.handler = handler
 
-    def insert(self, page):
-        self.children[page] = RouteTrieNode()
+    def insert(self, page, handler = None):
+        self.children[page] = RouteTrieNode(handler)
 
 
 ## some initial testing:
 mypage = RouteTrie()
-mypage.insert("about")
-mypage.insert("about/me")
+mypage.insert("about","about handler")
+mypage.insert("about/me", "me handler")
+
+mypage.find("about/me")
+mypage.find("about")
+
+newpage = "about/me"
+newpage = newpage.split("/")
+newpage.remove('')
+
+
 """
 Next we need to implement the actual Router.
- The router will initialize itself with a RouteTrie for holding routes and associated handlers.
- It should also support adding a handler by path and looking up a handler by path.
- All of these operations will be delegated to the RouteTrie.
-
+The router will initialize itself with a RouteTrie for holding routes and associated handlers.
+It should also support adding a handler by path and looking up a handler by path.
+All of these operations will be delegated to the RouteTrie.
 Hint: the RouteTrie stores handlers under path parts, so remember to split your path around the '/' character
-
 Bonus Points: Add a not found handler to your Router which is returned whenever a path is not found in the Trie.
-
 More Bonus Points: Handle trailing slashes! A request for '/about' or '/about/' are probably looking for the same page.
- Requests for '' or '/' are probably looking for the root handler. Handle these edge cases in your Router.
-
+Requests for '' or '/' are probably looking for the root handler. Handle these edge cases in your Router.
 """
 
 # The Router class will wrap the Trie and handle 
 class Router:
-    def __init__(self, ...):
+    def __init__(self, handler=None, not_found_handler = None):
         # Create a new RouteTrie for holding our routes
         # You could also add a handler for 404 page not found responses as well!
-        self.RouteTrie = RouteTrie()
+        self.RouteTrie = RouteTrie(handler, not_found_handler)
 
-    def add_handler(self, ...):
-        # Add a handler for a path
-        # You will need to split the path and pass the pass parts
-        # as a list to the RouteTrie
+    def add_handler(self, path, handler):
+        self.RouteTrie.insert(path, handler)
 
-    def lookup(self, ...):
-        # lookup path (by parts) and return the associated handler
-        # you can return None if it's not found or
-        # return the "not found" handler if you added one
-        # bonus points if a path works with and without a trailing slash
-        # e.g. /about and /about/ both return the /about handler
+    def lookup(self, url):
+        return self.RouteTrie.find(url)
 
 
-    def split_path(self, ...):
-        # you need to split the path into parts for 
-        # both the add_handler and loopup functions,
-        # so it should be placed in a function here
-        
-  # Here are some test cases and expected outputs you can use to test your implementation
 
-## Test cases
+
+
+
+
+
+## Test case 1: From the problem set
 # create the router and add a route
 router = Router("root handler", "not found handler") # remove the 'not found handler' if you did not implement this
 router.add_handler("/home/about", "about handler")  # add a route
@@ -123,8 +143,29 @@ print(router.lookup("/")) # should print 'root handler'
 print(router.lookup("/home")) # should print 'not found handler' or None if you did not implement one
 print(router.lookup("/home/about")) # should print 'about handler'
 print(router.lookup("/home/about/")) # should print 'about handler' or None if you did not handle trailing slashes
-print(router.lookup("/home/about/me")) # should print 'not found handler' or None if you did not implement one      
-  
+print(router.lookup("/home/about/me")) # should print 'not found handler' or None if you did not implement one
+
+## Test case 2: An empty input
+router = Router()
+router.add_handler("/home/about", "about handler")  # add a route
+print(router.lookup("/home/about"))
+# 'about handler'
+print(router.lookup("/home/notapage"))
+# None
+
+## Test case 3: Subsequently adding depth
+router = Router()
+router.add_handler("/home", "home handler")
+router.add_handler("/home/about", "about handler")
+router.add_handler("/home/about/me", "me handler")  # add a route
+print(router.lookup("/home/about"))
+# 'about handler'
+print(router.lookup("/home/about/me"))
+# me handler
+print(router.lookup("/home/"))
+# home handler
+
+
 
 
 
