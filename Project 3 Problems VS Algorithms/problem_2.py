@@ -14,22 +14,8 @@ Input: nums = [4,5,6,7,0,1,2], target = 0, Output: 4
 Here is some boilerplate code and test cases to start with:
 """
 
-
-
 def rotated_array_search(input_list, number):
-    ## this takes O(lon(n)) time and will be helpful
-    def recursive_binary_search(target, source, left=0):
-        if len(source) == 0:
-            return None
-        center = (len(source) - 1) // 2
-        #print(center)
-        if source[center] == target:
-            return center + left
-        elif source[center] < target:
-            return recursive_binary_search(target, source[center + 1:], left + center + 1)
-        else:
-            return recursive_binary_search(target, source[:center], left)
-    #print("")
+
     if len(input_list) == 0:
         print("The input list is empty")
         return
@@ -38,43 +24,33 @@ def rotated_array_search(input_list, number):
         print("Number to look for is not an integer")
         return
 
-    try:
-        center = (len(input_list) - 1) // 2
-        #print("The center index is {} and its value is {}".format(center, input_list[center]))
-        if input_list[center] == number:
-            return center
+    start_index = 0
+    end_index = len(input_list) - 1
 
-        ## the reappended part is left of the middle
-        # [7, 8, 1, 2, 3, 4, 5, 6]
-        #print(input_list)
-        if input_list[0] > input_list[center] and input_list[center + 1] < input_list[len(input_list )-1]:
-            #print("appended part is left of middle")
-            #print(" - check if target number in regular part")
-            if number > input_list[center] and number <= input_list[-1]: ## the target number is in the right non-weird properly sorted part
-                #print("Target number {} is in the right part (regular part), start recursive binary search".format(number))
-                #print( input_list[center+1:])
-                return center +1 +recursive_binary_search(number, input_list[center+1:], left=0)
-            else:
-                #print("Target number {} is in the left part, re-start new search".format(number))
-                #print(input_list[0:center])
-                return rotated_array_search(input_list[0:center], number)
+    while start_index <= end_index:
+        #print("")
+        #print(input_list[start_index:end_index])
+        mid_index = (start_index + end_index) // 2  # integer division in Python 3
 
-        else: ## the reappended part is right of middle, i.e.
-            # [3, 4, 5, 6, 7, 8, 1, 2]
-            #print("appended part is right of middle")
-            if number < input_list[center] and number >= input_list[0]: ## the target number is in the right non-weird properly sorted part
-                #print("Target number {} is in the left part,start recursive binary search on:".format(number))
-                #print(input_list[:center])
-                return  recursive_binary_search(number, input_list[:center], left=0)
-            else:
-                #print("Target number {} is in the right part, re-start new search on:".format(number))
-                #print(input_list[center+1:])
-                #print(input_list[center+1:] == [])
-                return center + 1 + rotated_array_search(input_list[center+1:], number)
-    except TypeError:
-        #print("Number not found")
-        return -3
+        mid_element = input_list[mid_index]
 
+        if number == mid_element:  # we have found the element
+            return mid_index
+
+        elif input_list[start_index] <= number <= input_list[mid_index-1]:
+            end_index = mid_index - 1  # we will only search in the left half
+
+        elif input_list[mid_index+1] <= number <= input_list[end_index]:
+            start_index = mid_index + 1  # we will search only in the right half
+
+        elif input_list[start_index] > input_list[mid_index] and not input_list[mid_index+1] <= number <= input_list[end_index]:
+            end_index = mid_index - 1  # we will only search in the left half
+
+        elif input_list[mid_index] > input_list[end_index] and not input_list[start_index] <= number <= input_list[mid_index-1]:
+            start_index = mid_index + 1  # we will search only in the right half
+        else:
+            return -1
+    return -1
 
 
 def linear_search(input_list, number):
@@ -100,12 +76,18 @@ test_function([[6, 7, 8, 1, 2, 3, 4], 1])
 test_function([[6, 7, 8, 1, 2, 3, 4], 10])
 test_function([[2, 3, 4, 5, 6, 7, 8, 9, 1], 1])
 
+
+
 ## Test Case 2: Empty input
 rotated_array_search([], 1)
 # The input list is empty
 
 
-## Test Case 3: Empty input
+## Test Case 3: Looking for non-integer
 rotated_array_search([2, 3, 4, 5, 6, 7, 8, 9, 1], "a")
 # Number to look for is not an integer
 
+## test case4 : More Cases from the reviewer
+
+test_function([[10, 1, 2, 3, 4], 6])
+test_function([[1, 2, 3, 4], 6])

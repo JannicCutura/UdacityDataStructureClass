@@ -1,5 +1,10 @@
 Cool problem!
 
+Plagiarism Disclaimer: I could not figure out how to get the tree to understand that "ant" is a word and also a prefix to be used more.
+If I set the is_word value to True, it would not continue search below. my solution is now inspired by this github repo
+(https://github.com/viralj/nd256_project3/blob/master/solution_5.ipynb) which is adding some x00 in the end to mark the
+end.
+
 I cannot comment on the complexity if the commands that are given in the end to visualize the result, but for my codes:
 
 So, let n be the number of words and m(n) be the length (number of characters) of word n and M is the longest word.

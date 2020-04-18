@@ -3,18 +3,11 @@ If not for the rotation point, it would just be a binary search. Now with the ro
 point we need to keep this in mind. The way I do it is:
 - Check whether rotation point is left or right of the middle. You can easily do this
   by checking start and end points of both sublist. one start will be smaller than the end
-- If the target number is in the "sorted" part, simply do recursive binary search
-- if the target number is in the unsorted part, repeat from above on the unsorted
-  part only.
-
-
+- If the target number is in the "sorted" part, simply to binary search here
+- If the target number is in the not in the unsorted part, check the other
 Time complexity is O(log(n)), where n is the number of integers in the list. I am essentially
 running a binary search algorithm with a little twist.
 
-Space complexity is also O(log(n)) since we need to store the return values for each
-iteration. 
+Space complexity is O(n) since the input grows linearly, auxiliary space complexity is O(1) since we just need
+to store the start mid and end indexes.
 
-
-Note: I do not really like my code. I started to build it from scratch and modified
-until it worked, but clearly it is not a very readable solution. I would appreciate 
-some feedback.

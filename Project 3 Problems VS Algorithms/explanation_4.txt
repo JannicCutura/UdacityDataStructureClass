@@ -1,17 +1,8 @@
 The problem confused me since it was already solved in the excercises?!
 
-I recoded the solution from the excercises from scratch and also came up with my own solution which does
-not use a pivot strategy (and therefore likely misses the point of the problem), because I wasn't sure
-what else to do here? 
-
-
 My own solution takes takes a single traversal, but has to store the number of zeros, ones and twos and
 has to use extend which might use more space than the pivot solution. I am looking forward to your feedback.
 Time complexity is O(n) since I am traversing once. Space complexity is O(n) since I am creating a new array. 
 
-
-The solution inspired (but almost identical) to the ones in the excercise exhibit time complexity of O(n) as well
-but space complexity of O(1) (assuming you don't count the input!). 
-
-
-
+I believe my own solution performs a little worse in space complexity (I have to  create a second array), but since
+I came up with my own solution instead of just copying the solution from th excercises, I chose to submit my own solution.

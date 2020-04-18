@@ -1,27 +1,5 @@
 
 
-class TrieNode:
-    def __init__(self):
-        self.is_word = False
-        self.children = {}
-        self.to_return = set()
-
-    def insert(self, char):
-        self.children[char] = TrieNode()
-
-    def suffixes(self, suffix=''):
-
-        if self.children:
-
-            for char, node in self.children.items():
-
-                if node.is_word:
-                    self.to_return.add(suffix + char)
-
-                node.suffixes(suffix + char)
-
-        return list(self.to_return)
-
 
 class Trie:
     def __init__(self):
@@ -46,7 +24,31 @@ class Trie:
             current_node = current_node.children[char]
         return current_node
 
-Mynode= TrieNode()
+
+
+
+
+class TrieNode:
+    def __init__(self):
+        self.is_word = False
+        self.children = {}
+
+
+    def insert(self, char):
+        self.children[char] = TrieNode()
+
+    def suffixes(self, suffix=''):
+        results =[]
+
+        for values in self.children:
+            if self.children[values].children:
+                results.extend(self.children[values].suffixes(suffix + values))
+            elif values == '\x00':
+                results .append(suffix)
+        return  results
+
+
+
 MyTrie = Trie()
 wordList = [
     "ant", "anthology", "antagonist", "antonym",
@@ -54,16 +56,21 @@ wordList = [
     "trie", "trigger", "trigonometry", "tripod"
 ]
 for word in wordList:
-    MyTrie.insert(word)
+    MyTrie.insert(word+"\0")
+
+
+MyTrie2 = Trie()
+for word in wordList:
+    MyTrie2.insert(word)
 
 
 
-#%%
-from ipywidgets import widgets
-from IPython.display import display
-from ipywidgets import interact
+
+
 def f(prefix):
+    print(prefix)
     if prefix != '':
+        print("prefix not empty")
         prefixNode = MyTrie.find(prefix)
         if prefixNode:
             print('\n'.join(prefixNode.suffixes()))
@@ -71,7 +78,11 @@ def f(prefix):
             print(prefix + " not found")
     else:
         print('')
-interact(f,prefix='');
+
+f("a")
+
+
+
 
 
 

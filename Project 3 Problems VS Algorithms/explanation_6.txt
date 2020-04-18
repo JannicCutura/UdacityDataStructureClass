@@ -6,4 +6,6 @@ Foer n input numbers:
 
 Time complexity is O(n) since we need to check every element in the input. 
 
-Space complexity is O(1) since we only store the current min and max. 
+Space complexity is O(n) since a large input needs linearly more space.
+Auxiliary space complexity is O(1) however since
+I only "keep track" of the current min and max.

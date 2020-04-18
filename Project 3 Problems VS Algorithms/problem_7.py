@@ -97,10 +97,6 @@ mypage.insert("about/me", "me handler")
 mypage.find("about/me")
 mypage.find("about")
 
-newpage = "about/me"
-newpage = newpage.split("/")
-newpage.remove('')
-
 
 """
 Next we need to implement the actual Router.

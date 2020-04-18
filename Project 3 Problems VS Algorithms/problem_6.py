@@ -13,14 +13,12 @@ def get_min_max(ints):
         return
     tmp = ints
 
-    for char in ints:
-        if not str(char).isdigit():
-            print("Error: The input must only contain numbers")
-            return
-
     min = ints[0]
     max =ints[0]
     for number in ints:
+        if not str(number).isdigit():
+            print("Error: The input must only contain numbers")
+            return
         if number < min:
             min = number
         elif number > max:
